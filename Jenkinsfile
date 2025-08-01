@@ -4,6 +4,7 @@ pipeline {
     tools {
         gradle 'gradle'  // This name must match the name you configured in Jenkins → Global Tool Configuration
         // Optionally add: jdk 'jdk-name' if you configured JDK
+         git 'Default'
     }
 
     environment {
