@@ -30,16 +30,17 @@ pipeline {
             }
         }
 
-        stage('Build and Push Docker Image') {
-            steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
-                        def image = docker.build("${IMAGE_NAME}:${env.BRANCH_NAME}")
-                        image.push()
-                    }
-                }
-            }
+        stage('Deploy') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            sh """
+                echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                docker build -t mostafaabdellatif/gradle-project:latest .
+                docker push mostafaabdellatif/gradle-project:latest
+            """
         }
+    }
+}
     }
 
     post {
