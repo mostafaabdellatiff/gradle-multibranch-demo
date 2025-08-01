@@ -12,6 +12,11 @@ pipeline {
     }
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                deleteDir() // This deletes the workspace content
+            }
+        }
         stage('Checkout') {
             steps {
                 checkout scm
